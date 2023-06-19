@@ -1,20 +1,23 @@
-import React from 'react'
-import { useDrag } from 'react-dnd'
+import React from 'react';
+import { useDrag } from "react-dnd";
 
-const Picture = ({imgUrl,id}) => {
-  const [{isDragging},drag] = useDrag(()=>{
+const Picture = ({ImgUrl,id}) => {
+
+  // console.log(id)
+  const [{ isDragging }, drag] = useDrag(() => {
     return {
-      type:'image',
-      collect:(monitor)=>{
+      type: "image",
+      item:{id:id},// put all the things here that we want to pass as the arguments which we need at the dropping end
+      collect: (monitor) => {
         return {
           isDragging: !!monitor.isDragging(),
-        }
-      }
-    }
-  })
+        };
+      },
+    };
+  });
   return (
     <>
-        <img src={imgUrl} ref={drag} alt="picture" style={{border: isDragging ? '5px solid red':''}}/>
+        <img src={ImgUrl} ref={drag} alt="picture" style={{border: isDragging ? '5px solid red':''}}/>
     </>
   )
 }

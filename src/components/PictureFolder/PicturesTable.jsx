@@ -1,35 +1,52 @@
-import React from 'react'
-import './PicturesTable.css'
-import Picture from '../PicturesComponent/Picture'
-const PicturesList = [
-    {
-        id:1,
-        img:'https://images.unsplash.com/photo-1544211412-2a32426e7fd5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=689&q=80'
-    },
-    {
-        id:2,
-        img:'https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=786&q=80'
-    },
-    {
-        id:3,
-        img:'https://plus.unsplash.com/premium_photo-1661847643150-4e06569d2ec1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=668&q=80'
-    },
-]
+import React, { useState } from "react";
+import "./PicturesTable.css";
+import Picture from "../PicturesComponent/Picture";
+import { PicturesList } from "../../Constant/TableDummyData";
+import { useDrop } from "react-dnd";
+
 const PicturesTable = () => {
+  const [{ isOver }, drop] = useDrop(() => {
+    return {
+      accept: "image",
+      drop: (item) => {
+        console.log(item);
+        return addImageToTheBoard(item.id);
+      },
+      collect: (monitor) => {
+        return {
+          isOver: !!monitor.isOver(),
+        };
+      },
+    };
+  });
+
+  const [board, setBoard] = useState([]);
+
+  const addImageToTheBoard = (id) => {
+    console.log(id);
+  };
+
   return (
     <>
-    <h1>PicturesTable</h1>
-    <div className="container">
-        {
-            PicturesList.map((picture)=>{
-                return <Picture key={picture.id} imgUrl={picture.img} id={picture.id}/>
-            })
-        }
-    </div>
-    
+      <h1>PicturesTable</h1>
+      <div className="container">
+        {PicturesList.map((picture) => {
+          return <Picture ImgUrl={picture.img} key={picture.id} id={picture.id} />;
+        })}
+      </div>
+
+      <h1>Dropping Component</h1>
+      <div
+        className="dropping-box"
+        ref={drop}
+        style={{ background: isOver ? "yellow" : "white" }}
+      >
+        {board.map((item) => {
+          return <img imgUrl={item.img} key={item.id} ref={drop} />;
+        })}
+      </div>
     </>
-  )
-}
+  );
+};
 
-
-export default PicturesTable
+export default PicturesTable;

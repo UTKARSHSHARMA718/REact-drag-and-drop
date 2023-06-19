@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import { DndProvider } from "react-dnd";
+import {HTML5Backend} from 'react-dnd-html5-backend'
+import "./App.css";
+import PicturesTable from "./components/PictureFolder/PicturesTable";
+import DropArea from "./components/DnD/DropArea";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  return <>
+    <DndProvider backend={HTML5Backend}>
+      <div className="App">
+        <PicturesTable/>
+        <DropArea/>
+      </div>
+    </DndProvider>
+  </>;
 }
 
 export default App;
